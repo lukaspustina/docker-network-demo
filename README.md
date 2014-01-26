@@ -4,7 +4,7 @@ This demo gives a brief introduction to networking with [Docker][docker]. Please
 
 The demo is controlled by a `Makefile`. Please have a look at this `Makefile` to see the different Docker commands used. Also have a look at the `Dockerfile`s used to build the Docker images in `mongodb/Dockerfile` and `webserver/Dockerfile`.
 
-Have fun with lightweight virtual machines made simple with Docker and feel free to contact me _for any questions or comments_.
+Have fun with lightweight virtual machines made simple with Docker and feel free to contact me for any questions or comments.
 
 ## Prerequisites ##
 
