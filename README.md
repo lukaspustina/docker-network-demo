@@ -31,7 +31,7 @@ In the first step, two Docker images are build. First, starting from an Ubuntu b
 
 ### 2. Starting containers ###
 
-In the second step, a number of LXC containers is started; by default 100.
+In the second step, the containers are started:
 > `make run`
 
 ### 3. Running Demo ###
@@ -57,7 +57,7 @@ and to clean up run
 > `make clean`
 
 [docker]: http://docker.io
-[cc-blog]: 
+[cc-blog]: https://blog.codecentric.de/en/2014/01/docker-networking-made-simple-3-ways-connect-lxc-containers/
 [lxc]: http://linuxcontainers.org/
 [vagrant]: http://www.vagrantup.com
 [docker-install-doc]: http://docs.docker.io/en/latest/installation/
