@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
   echo ip link set eth1 master docker0 >> /etc/rc.local
   echo service docker restart >> /etc/rc.local
   chmod +x /etc/rc.local 2> /dev/null'
-  config.vm.provision "docker", version: "0.7.5"
+  config.vm.provision "docker", version: "0.8.1"
   config.vm.provision :shell, :inline => '/etc/rc.local'
   config.vm.provision :shell, :inline => "mkdir -p /var/lib/cloud/instance; touch /var/lib/cloud/instance/locale-check.skip"
 end
