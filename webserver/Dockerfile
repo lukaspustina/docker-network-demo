@@ -1,8 +1,8 @@
 # Dockerfile for simple python webserver
 # Version 1.0
-FROM docker-network-demo/python
+FROM lukaspustina/docker_network_demo_python
 
-MAINTAINER Lukas Pustina <lukas.pustina@centerdevice.com>
+MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
 ADD webserver.py /opt/webserver/webserver.py
 

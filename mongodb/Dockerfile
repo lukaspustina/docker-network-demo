@@ -1,8 +1,8 @@
 # Dockerfile for mongodb
 # Version 1.0
-FROM docker-network-demo/base
+FROM lukaspustina/docker_network_demo_base
 
-MAINTAINER Lukas Pustina <lukas.pustina@centerdevice.com>
+MAINTAINER Lukas Pustina <lukas.pustina@codecentric.de>
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10 && echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/mongodb.list
 RUN apt-get update; apt-get install -y mongodb-10gen

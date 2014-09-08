@@ -7,6 +7,7 @@ all:
 	@echo "make build -- build docker images"
 	@echo "make run -- run container"
 	@echo "make demo -- execute demo"
+	@echo "make stop -- stop and remove all containers"
 
 $(LOGDIR):
 	@mkdir -p $@
@@ -15,26 +16,26 @@ build: base mongodb python webserver
 	docker images
 
 base:
-	docker build -no-cache -rm -t docker-network-demo/$@ $@
+	docker build --no-cache --force-rm -t lukaspustina/docker_network_demo_$@ $@
 
 mongodb:
-	docker build -no-cache -rm -t docker-network-demo/$@ $@
+	docker build --no-cache --force-rm -t lukaspustina/docker_network_demo_$@ $@
 
 python:
-	docker build -no-cache -rm -t docker-network-demo/$@ $@
+	docker build --no-cache --force-rm -t lukaspustina/docker_network_demo_$@ $@
 
 webserver:
-	docker build -no-cache -rm -t docker-network-demo/$@ $@
+	docker build --no-cache --force-rm -t lukaspustina/docker_network_demo_$@ $@
 
 run: $(LOGDIR) pipework
 	@echo "+++ Starting containers +++"
-	docker run -d -cidfile=$</mongodb.cid -name mongodb docker-network-demo/mongodb:latest
-	docker run -d -cidfile=$</webserver.cid -link mongodb:mongo -p 8080:8080 -name webserver docker-network-demo/webserver:latest
+	docker run -d --cidfile=$</mongodb.cid --name=mongodb --hostname=mongodb lukaspustina/docker_network_demo_mongodb:latest
+	docker run -d --cidfile=$</webserver.cid --link=mongodb:mongo --publish=8080:8080 --name=webserver --hostname=webserver lukaspustina/docker_network_demo_webserver:latest
 	sudo ./pipework docker0 -i eth1 $$(docker ps -q -l) 10.2.0.11/16
 	@echo "+++ Running containers +++"
 	@docker ps
 
-getWebserverIP = docker inspect webserver | grep IPAddress | awk '{print $$2}' | tr -d '",\n'
+getWebserverIP = docker inspect -f '{{ .NetworkSettings.IPAddress }}' webserver
 
 demo:
 	@echo "+++ Inserting Birthdays +++"
@@ -48,8 +49,8 @@ demo:
 	curl http://$(shell $(getWebserverIP)):8080
 
 stop: $(LOGDIR)
-	-@docker ps -q | xargs docker kill > /dev/null
-	-@docker ps -a -q | xargs docker rm > /dev/null
+	-@docker ps | grep lukaspustina/docker_network_demo_ | awk '{ print $$1 }' | xargs docker kill > /dev/null
+	-@docker ps -a | grep lukaspustina/docker_network_demo_ | awk '{ print $$1 }' | xargs docker rm > /dev/null
 	-@rm $</*.cid
 
 clean: clean-logs clean-images
@@ -61,6 +62,6 @@ clean-images:
 	-@docker images -q | xargs docker rmi
 
 pipework:
-	curl https://raw.github.com/jpetazzo/pipework/master/pipework -o $@
+	wget https://raw.github.com/jpetazzo/pipework/master/pipework
 	chmod +x $@
 
